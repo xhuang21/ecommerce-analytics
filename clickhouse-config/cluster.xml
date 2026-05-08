@@ -1,0 +1,24 @@
+<clickhouse>
+    <remote_servers>
+        <ecommerce_cluster>
+            <shard>
+                <replica>
+                    <host>clickhouse-s1</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+            <shard>
+                <replica>
+                    <host>clickhouse-s2</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </ecommerce_cluster>
+    </remote_servers>
+    <zookeeper>
+        <node>
+            <host>zookeeper</host>
+            <port>2181</port>
+        </node>
+    </zookeeper>
+</clickhouse>

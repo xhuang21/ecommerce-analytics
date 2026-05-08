@@ -1,0 +1,38 @@
+services:
+  zookeeper:
+    image: zookeeper:latest
+    container_name: zk
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+
+  clickhouse-s1:
+    image: clickhouse/clickhouse-server:latest
+    container_name: ch-s1
+    environment:
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      CLICKHOUSE_PASSWORD: ""
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - ./clickhouse-config/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml
+      - ./clickhouse-config/macros-s1.xml:/etc/clickhouse-server/config.d/macros.xml
+    depends_on:
+      - zookeeper
+
+  clickhouse-s2:
+    image: clickhouse/clickhouse-server:latest
+    container_name: ch-s2
+    environment:
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      CLICKHOUSE_PASSWORD: ""
+    ports:
+      - "8124:8123"
+      - "9001:9000"
+    volumes:
+      - ./clickhouse-config/cluster.xml:/etc/clickhouse-server/config.d/cluster.xml
+      - ./clickhouse-config/macros-s2.xml:/etc/clickhouse-server/config.d/macros.xml
+    depends_on:
+      - zookeeper
